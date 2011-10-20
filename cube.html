@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+      <title>three.js canvas - camera - orthographic</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+      <style>
+          body {
+              font-family: Monospace;
+              background-color: #f0f0f0;
+              margin: 0px;
+              overflow: hidden;
+          }
+      </style>
+  </head>
+  <body onload="main()">
+
+    <script type="text/coffeescript">
+      window.requestAnimFrame = (function(){
+        return  window.requestAnimationFrame       || 
+                window.webkitRequestAnimationFrame || 
+                window.mozRequestAnimationFrame    || 
+                window.oRequestAnimationFrame      || 
+                window.msRequestAnimationFrame     || 
+                function(/* function */ callback, /* DOMElement */ element){
+                  window.setTimeout(callback, 1000 / 60);
+                };
+      })();
+
+      var camera, scene, renderer, geometry, material, mesh, planeGeo, plane;
+      function init() {
+          camera = new THREE.Camera(105, 600/600, 1, 10000);
+          camera.position.z = 500;
+      
+          scene = new THREE.Scene();
+      
+          //var tex = new THREE.ImageUtils.loadTexture("http://www.w3.org/html/logo/img/class-header-3d.jpg");
+          var tex = new THREE.ImageUtils.loadTexture("http://s.godoall.com/content/2011/5/17/9/d6c9d6fb514a36224066b4d6f87bb2bf322650243/size0.jpg");
+          geometry = new THREE.CubeGeometry(200, 200, 200);
+          material = new THREE.MeshBasicMaterial({map: tex});
+          //material = new THREE.MeshBasicMaterial({color: 0xffffff});
+          
+          mesh = new THREE.Mesh(geometry, material);
+          scene.addObject( mesh );
+          
+          planeGeo = new THREE.PlaneGeometry(6000, 6000);
+          var planeMat = new THREE.MeshLambertMaterial({color: 0x000000});
+          plane = new THREE.Mesh(planeGeo, planeMat);
+      
+          plane.rotation.x = -2.0;
+          plane.position.y = -200;
+          plane.position.z = 120;
+          plane.scale.y = 0.1;
+          scene.addChild(plane);
+      
+          renderer = new THREE.CanvasRenderer();
+          //renderer = new THREE.WebGLRenderer();
+          renderer.setSize(600, 600);
+      
+          document.body.appendChild(renderer.domElement);
+      }
+      
+      function render()
+      {
+          mesh.rotation.x += 0.01;
+          mesh.rotation.y += 0.01;
+          mesh.rotation.z += 0.02;
+          //mesh.rotation.x = 1317837189690/500;
+          //mesh.rotation.y = 1317837189690/800;
+      
+          renderer.render(scene, camera);
+          
+          window.requestAnimFrame(render, render.domElement);
+      }
+      
+      function main()
+      {
+          init();
+          render();
+      }
+    </script>
+  </body>
+</html>
