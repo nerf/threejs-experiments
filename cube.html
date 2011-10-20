@@ -18,7 +18,7 @@
     <script src="js/dist/Three.js"></script>
     <script src="js/dist/coffee-script.js"></script>
     <script type="text/coffeescript">
-      window.requestAnimFrame = ->
+      window.requestAnimFrame =
         window.requestAnimationFrame        or
         window.webkitRequestAnimationFrame  or
         window.mozRequestAnimationFrame     or
@@ -64,12 +64,10 @@
           @mesh.rotation.z += 0.02
           #@mesh.rotation.x = 1317837189690/500
           #@mesh.rotation.y = 1317837189690/800
-          console.log('render')
           @renderer.render @scene, @camera
 
-          #window.requestAnimFrame =>
-          window.webkitRequestAnimationFrame =>
-            @render
+          window.requestAnimFrame =>
+            @render()
             true
           , @render.domElement
 
